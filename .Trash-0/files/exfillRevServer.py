@@ -10,8 +10,6 @@ def transfer(conn,command):
         bits = conn.recv(1024)
         if 'Unable to find the file.'.encode() in bits:
             print('[-] Unable to find the file')
-            f.close()
-            os.remove('/root/Desktop/{0}'.format(fname))
             break
         if bits.endswith('DONE'.encode()):
             print('[+] Transfer completed ')
