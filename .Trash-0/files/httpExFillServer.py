@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler,HTTPServer
-import os,cgi,ntpath
+import os,cgi
 
 HOST_NAME = "192.168.0.10"
 PORT_NUMBER = 80
@@ -22,8 +22,8 @@ class MyHandler(BaseHTTPRequestHandler):
                 else:
                     print("[-] Unexpected POST request.")
                 fs_up = fs['file']
-                name = ntpath.basename(fs['path'].value.decode())
-                with open('/root/Desktop/{0}'.format(name), 'wb') as o:
+                name = str(fs['path']).split("'")[5:6]
+                with open('/root/Desktop/{0}'.format(name[0]), 'wb') as o:
                     o.write( fs_up.file.read() )
                     s.send_response(200)
                     s.end_headers()

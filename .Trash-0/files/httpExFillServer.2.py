@@ -23,6 +23,7 @@ class MyHandler(BaseHTTPRequestHandler):
                     print("[-] Unexpected POST request.")
                 fs_up = fs['file']
                 name = ntpath.basename(fs['path'].value.decode())
+                print(name)
                 with open('/root/Desktop/{0}'.format(name), 'wb') as o:
                     o.write( fs_up.file.read() )
                     s.send_response(200)
