@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler,HTTPServer
 import os,cgi,ntpath
 
-HOST_NAME = "192.168.0.10"
+HOST_NAME = "10.0.0.27"
 PORT_NUMBER = 80
 
 class MyHandler(BaseHTTPRequestHandler):

